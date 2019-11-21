@@ -1,0 +1,13 @@
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\obj\Debug\netcoreapp3.0\Data.csprojAssemblyReference.cache
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\obj\Debug\netcoreapp3.0\Data.AssemblyInfoInputs.cache
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\obj\Debug\netcoreapp3.0\Data.AssemblyInfo.cs
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\bin\Debug\netcoreapp3.0\Data.deps.json
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\bin\Debug\netcoreapp3.0\Data.runtimeconfig.json
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\bin\Debug\netcoreapp3.0\Data.runtimeconfig.dev.json
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\bin\Debug\netcoreapp3.0\Data.dll
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\bin\Debug\netcoreapp3.0\Data.pdb
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\obj\Debug\netcoreapp3.0\Data.csproj.CopyComplete
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\obj\Debug\netcoreapp3.0\Data.dll
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\obj\Debug\netcoreapp3.0\Data.pdb
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\bin\Debug\netcoreapp3.0\Domain.dll
+C:\Users\rodrigo.duarte\source\repos\BlogRodrigoDuarte\InfrastructureLayer\bin\Debug\netcoreapp3.0\Domain.pdb
