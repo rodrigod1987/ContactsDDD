@@ -11,7 +11,8 @@ namespace Domain.Interfaces.Services
     TEntity GetSingle(Expression<Func<TEntity, bool>> where, params Expression<Func<TEntity, object>>[] navigationProperties);
     IList<TEntity> GetWhere(Expression<Func<TEntity, bool>> where, params Expression<Func<TEntity, object>>[] navigationProperties);
     int Remove(TEntity entity);
-    TEntity Save(TEntity entity);
+    int Add(TEntity entity);
+    int Update(TEntity entity);
     void Dispose();
   }
 }

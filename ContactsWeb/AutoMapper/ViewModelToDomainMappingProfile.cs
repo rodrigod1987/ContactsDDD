@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ContactsWeb.AutoMapper
 {
-  public class ViewModelToDomainMappingProfile : IViewModelToDomainMappingProfile
+  public class ViewModelToDomainMappingProfile : IMappingProfile
   {
     private readonly IServiceCollection services;
 

@@ -2,11 +2,10 @@
 using ContactsWeb.ViewModels;
 using Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace ContactsWeb.AutoMapper
 {
-  public class DomainToViewModelMappingProfile : IDomainToViewModelMappingProfile
+  public class DomainToViewModelMappingProfile : IMappingProfile
   {
     private readonly IServiceCollection services;
 

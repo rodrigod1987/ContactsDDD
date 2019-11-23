@@ -8,15 +8,15 @@ using System.Linq.Expressions;
 using Domain.Interfaces.Repositories;
 using Microsoft.Extensions.Configuration;
 
-namespace InfrastructureLayer.Repositories
+namespace Infrastructure.Repositories
 {
   public class RepositoryBase<TEntity> : IDisposable, IRepositoryBase<TEntity> where TEntity : class, IEntity
   {
-    protected readonly ContactDBContext contextDB;
+    public readonly ContactDBContext DB;
 
     public RepositoryBase(IConfiguration configuration)
     {
-      this.contextDB = new ContactDBContext(configuration);
+      this.DB = new ContactDBContext(configuration);
     }
 
     private void IncludeNavigationProperties(ref IQueryable<TEntity> dbQuery, Expression<Func<TEntity, object>>[] navigationProperties)
@@ -27,7 +27,7 @@ namespace InfrastructureLayer.Repositories
 
     public IList<TEntity> GetAll(params Expression<Func<TEntity, object>>[] navigationProperties)
     {
-      IQueryable<TEntity> dbQuery = contextDB.Set<TEntity>();
+      IQueryable<TEntity> dbQuery = DB.Set<TEntity>();
 
       IncludeNavigationProperties(ref dbQuery, navigationProperties);
 
@@ -37,7 +37,7 @@ namespace InfrastructureLayer.Repositories
     public TEntity GetSingle(Expression<Func<TEntity, bool>> where,
       params Expression<Func<TEntity, object>>[] navigationProperties)
     {
-      IQueryable<TEntity> dbQuery = contextDB.Set<TEntity>();
+      IQueryable<TEntity> dbQuery = DB.Set<TEntity>();
 
       IncludeNavigationProperties(ref dbQuery, navigationProperties);
 
@@ -50,7 +50,7 @@ namespace InfrastructureLayer.Repositories
     public IList<TEntity> GetWhere(Expression<Func<TEntity, bool>> where,
       params Expression<Func<TEntity, object>>[] navigationProperties)
     {
-      IQueryable<TEntity> dbQuery = contextDB.Set<TEntity>();
+      IQueryable<TEntity> dbQuery = DB.Set<TEntity>();
 
       IncludeNavigationProperties(ref dbQuery, navigationProperties);
 
@@ -59,26 +59,28 @@ namespace InfrastructureLayer.Repositories
         .ToList();
     }
 
-    public int Remove(TEntity entity)
+    public void Remove(TEntity entity)
     {
-      contextDB.Set<TEntity>().Remove(entity);
-      return contextDB.SaveChanges();
+      DB.Set<TEntity>().Remove(entity);
     }
 
-    public TEntity Save(TEntity entity)
+    public void Add(TEntity entity)
     {
-      if (entity.Id == 0)
-        contextDB.Set<TEntity>().Add(entity);
-      else
-        contextDB.Set<TEntity>().Update(entity);
+      DB.Set<TEntity>().Add(entity);
+    }
 
-      var result = contextDB.SaveChanges();
-      return entity;
+    public void Update(TEntity entity)
+    {
+      DB.Set<TEntity>().Update(entity);
     }
 
     public void Dispose()
     {
-      throw new NotImplementedException();
+      if (DB != null)
+      {
+        DB.Dispose();
+      }
+      GC.SuppressFinalize(this);
     }
   }
 }

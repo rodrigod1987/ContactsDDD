@@ -1,6 +1,6 @@
 ﻿namespace ContactsWeb.AutoMapper
 {
-  public interface IDomainToViewModelMappingProfile
+  public interface IMappingProfile
   {
     void RegisterMap();
   }

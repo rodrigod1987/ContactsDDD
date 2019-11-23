@@ -3,7 +3,7 @@ using Domain.Interfaces.Repositories;
 using Data.Context;
 using Microsoft.Extensions.Configuration;
 
-namespace InfrastructureLayer.Repositories
+namespace Infrastructure.Repositories
 {
   public class EmailRepository : RepositoryBase<Email>, IEmailRepository
   {

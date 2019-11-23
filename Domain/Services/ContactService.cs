@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
+using Domain.Interfaces.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,22 @@ namespace Domain.Services
 {
   public class ContactService : ServiceBase<Contact>, IContactService
   {
-    private readonly IContactRepository repository;
+    private readonly IContactUnitWorker unitWorker;
+    private readonly IAddressUnitWorker addressUnitWorker;
+    private readonly IEmailUnitWorker emailUnitWorker;
+    private readonly IPhoneUnitWorker phoneUnitWorker;
 
-    public ContactService(IContactRepository repository) 
-      : base(repository)
+
+    public ContactService(IContactUnitWorker unitWorker,
+      IAddressUnitWorker addressUnitWorker,
+      IEmailUnitWorker emailUnitWorker,
+      IPhoneUnitWorker phoneUnitWorker) 
+      : base(unitWorker)
     {
-      this.repository = repository;
+      this.unitWorker = unitWorker;
+      this.addressUnitWorker = addressUnitWorker;
+      this.emailUnitWorker = emailUnitWorker;
+      this.phoneUnitWorker = phoneUnitWorker;
     }
 
     public IEnumerable<Contact> GetContactsWithAvatar(IEnumerable<Contact> contacts)

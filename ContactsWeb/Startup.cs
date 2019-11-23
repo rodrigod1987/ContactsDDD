@@ -1,5 +1,4 @@
 using ContactsWeb.AutoMapper;
-using Domain.Interfaces.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -7,11 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using Application.Interfaces;
-using Application;
-using Domain.Interfaces.Services;
-using Domain.Services;
-using InfrastructureLayer.Repositories;
+using System.Linq;
+using DependencyResolver;
 
 namespace ContactsWeb
 {
@@ -29,8 +25,8 @@ namespace ContactsWeb
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddSingleton(services);
-
-      ConfigureAppDependencyInjection(services);
+      DependencyResolver.Configs.RegisterComponents(services);
+      AutoMapper.Configs.RegisterMappings(services);
 
       services
         .AddControllersWithViews()
@@ -41,27 +37,6 @@ namespace ContactsWeb
       {
         configuration.RootPath = "ClientApp/dist";
       });
-    }
-
-
-    private void ConfigureAppDependencyInjection(IServiceCollection services)
-    {
-      services.AddTransient<IContactAppService, ContactAppService>();
-      services.AddTransient<IAddressAppService, AddressAppService>();
-      services.AddTransient<IEmailAppService, EmailAppService>();
-      services.AddTransient<IPhoneAppService, PhoneAppService>();
-
-      services.AddTransient<IContactService, ContactService>();
-      services.AddTransient<IAddressService, AddressService>();
-      services.AddTransient<IEmailService, EmailService>();
-      services.AddTransient<IPhoneService, PhoneService>();
-
-      services.AddTransient<IContactRepository, ContactRepository>();
-      services.AddTransient<IAddressRepository, AddressRepository>();
-      services.AddTransient<IEmailRepository, EmailRepository>();
-      services.AddTransient<IPhoneRepository, PhoneRepository>();
-
-      services.AddTransient<IDomainToViewModelMappingProfile, DomainToViewModelMappingProfile>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -110,8 +85,9 @@ namespace ContactsWeb
       });
 
       serviceProvider
-        .GetService<IDomainToViewModelMappingProfile>()
-        .RegisterMap();
+        .GetServices<IMappingProfile>()
+        .ToList()
+        .ForEach(item => item.RegisterMap());
 
     }
   }

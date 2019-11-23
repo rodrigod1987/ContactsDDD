@@ -37,9 +37,14 @@ namespace Application
       return service.Remove(entity);
     }
 
-    public TEntity Save(TEntity entity)
+    public int Add(TEntity entity)
     {
-      return service.Save(entity);
+      return service.Add(entity);
+    }
+
+    public int Update(TEntity entity)
+    {
+      return service.Update(entity);
     }
 
     public void Dispose()
