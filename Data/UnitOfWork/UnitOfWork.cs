@@ -1,38 +1,43 @@
-﻿using Domain.Interfaces.Repositories;
-using Domain.Interfaces.UnitOfWork;
-using Infrastructure.Repositories;
-using Microsoft.Extensions.Configuration;
+﻿using Core;
+using Data.Context;
+using System;
 
 namespace Data.UnitOfWork
 {
-  public class UnitOfWork<TEntity> : IUnitOfWork<TEntity> where TEntity : class, IEntity
+  public class UnitOfWork : IUnitOfWork
   {
-    private readonly IConfiguration configuration;
-    private RepositoryBase<TEntity> _repository;
-    public IRepositoryBase<TEntity> Repository
-    {
-      get
-      {
-        if (_repository == null)
-          _repository = new RepositoryBase<TEntity>(configuration);
+    private readonly DatabaseContext databaseContext;
+    private bool disposed = false;
 
-        return _repository;
-      }
-    }
-
-    public UnitOfWork(IConfiguration configuration)
+    public UnitOfWork(DatabaseContext databaseContext)
     {
-      this.configuration = configuration;
+      this.databaseContext = databaseContext;
     }
 
     public int Commit()
     {
-      return _repository.DB.SaveChanges();
+      if (disposed)
+        throw new ObjectDisposedException(this.GetType().FullName);
+
+      return databaseContext.SaveChanges();
     }
 
     public void Dispose()
     {
-      _repository.Dispose();
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+      if (disposed) return;
+
+      if (disposing && databaseContext != null)
+      {
+        databaseContext.Dispose();
+      }
+
+      disposed = true;
     }
   }
 }

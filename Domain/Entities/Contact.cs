@@ -14,7 +14,7 @@ namespace Domain.Entities
 
     public bool HasAvatar(Contact contact)
     {
-      return contact.Avatar.Length > 0;
+      return contact.Avatar?.Length > 0;
     }
   }
 }

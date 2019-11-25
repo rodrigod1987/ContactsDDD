@@ -1,10 +1,14 @@
 ﻿using Application;
 using Application.Interfaces;
+using Core;
+using Data.Context;
 using Data.UnitOfWork;
+using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Domain.Interfaces.UnitOfWork;
-using Domain.Services;
+using Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using Services;
+using Data.Model;
 
 namespace DependencyResolver
 {
@@ -12,6 +16,10 @@ namespace DependencyResolver
   {
     public static void RegisterComponents(IServiceCollection services)
     {
+      services.AddDbContext<DatabaseContext>();
+
+      services.AddTransient<IDataService, DataService>();
+
       services.AddTransient<IContactAppService, ContactAppService>();
       services.AddTransient<IAddressAppService, AddressAppService>();
       services.AddTransient<IEmailAppService, EmailAppService>();
@@ -22,10 +30,12 @@ namespace DependencyResolver
       services.AddTransient<IEmailService, EmailService>();
       services.AddTransient<IPhoneService, PhoneService>();
 
-      services.AddTransient<IContactUnitWorker, ContactUnitWorker>();
-      services.AddTransient<IAddressUnitWorker, AddressUnitWorker>();
-      services.AddTransient<IEmailUnitWorker, EmailUnitWorker>();
-      services.AddTransient<IPhoneUnitWorker, PhoneUnitWorker>();
+      services.AddTransient<IContactRepository, ContactRepository>();
+      services.AddTransient<IAddressRepository, AddressRepository>();
+      services.AddTransient<IEmailRepository, EmailRepository>();
+      services.AddTransient<IPhoneRepository, PhoneRepository>();
+
+      services.AddTransient<IUnitOfWork, UnitOfWork>();
     }
   }
 }

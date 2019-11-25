@@ -1,22 +1,20 @@
-﻿using Domain.Interfaces;
-using Data.Context;
+﻿using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Domain.Interfaces.Repositories;
-using Microsoft.Extensions.Configuration;
 
-namespace Infrastructure.Repositories
+namespace Data.Repositories
 {
   public class RepositoryBase<TEntity> : IDisposable, IRepositoryBase<TEntity> where TEntity : class, IEntity
   {
-    public readonly ContactDBContext DB;
+    public readonly DatabaseContext databaseContext;
 
-    public RepositoryBase(IConfiguration configuration)
+    public RepositoryBase(DatabaseContext databaseContext)
     {
-      this.DB = new ContactDBContext(configuration);
+      this.databaseContext = databaseContext;
     }
 
     private void IncludeNavigationProperties(ref IQueryable<TEntity> dbQuery, Expression<Func<TEntity, object>>[] navigationProperties)
@@ -27,7 +25,7 @@ namespace Infrastructure.Repositories
 
     public IList<TEntity> GetAll(params Expression<Func<TEntity, object>>[] navigationProperties)
     {
-      IQueryable<TEntity> dbQuery = DB.Set<TEntity>();
+      IQueryable<TEntity> dbQuery = databaseContext.Set<TEntity>();
 
       IncludeNavigationProperties(ref dbQuery, navigationProperties);
 
@@ -37,7 +35,7 @@ namespace Infrastructure.Repositories
     public TEntity GetSingle(Expression<Func<TEntity, bool>> where,
       params Expression<Func<TEntity, object>>[] navigationProperties)
     {
-      IQueryable<TEntity> dbQuery = DB.Set<TEntity>();
+      IQueryable<TEntity> dbQuery = databaseContext.Set<TEntity>();
 
       IncludeNavigationProperties(ref dbQuery, navigationProperties);
 
@@ -50,7 +48,7 @@ namespace Infrastructure.Repositories
     public IList<TEntity> GetWhere(Expression<Func<TEntity, bool>> where,
       params Expression<Func<TEntity, object>>[] navigationProperties)
     {
-      IQueryable<TEntity> dbQuery = DB.Set<TEntity>();
+      IQueryable<TEntity> dbQuery = databaseContext.Set<TEntity>();
 
       IncludeNavigationProperties(ref dbQuery, navigationProperties);
 
@@ -61,24 +59,24 @@ namespace Infrastructure.Repositories
 
     public void Remove(TEntity entity)
     {
-      DB.Set<TEntity>().Remove(entity);
+      databaseContext.Set<TEntity>().Remove(entity);
     }
 
     public void Add(TEntity entity)
     {
-      DB.Set<TEntity>().Add(entity);
+      databaseContext.Set<TEntity>().Add(entity);
     }
 
     public void Update(TEntity entity)
     {
-      DB.Set<TEntity>().Update(entity);
+      databaseContext.Set<TEntity>().Update(entity);
     }
 
     public void Dispose()
     {
-      if (DB != null)
+      if (databaseContext != null)
       {
-        DB.Dispose();
+        databaseContext.Dispose();
       }
       GC.SuppressFinalize(this);
     }

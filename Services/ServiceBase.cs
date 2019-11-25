@@ -1,30 +1,33 @@
-﻿using Domain.Interfaces.Repositories;
+﻿using Core;
+using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Domain.Interfaces.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Domain.Services
+namespace Services
 {
   public class ServiceBase<TEntity> : IServiceBase<TEntity> 
     where TEntity : class, IEntity
   {
-    private readonly IUnitOfWork<TEntity> unitWorker;
+    private readonly IUnitOfWork unitWorker;
+    private readonly IRepositoryBase<TEntity> repository;
 
-    public ServiceBase(IUnitOfWork<TEntity> repository)
+    public ServiceBase(IUnitOfWork unitWorker,
+      IRepositoryBase<TEntity> repository)
     {
-      this.unitWorker = repository;
+      this.unitWorker = unitWorker;
+      this.repository = repository;
     }
 
     public IList<TEntity> GetAll(params Expression<Func<TEntity, object>>[] navigationProperties)
     {
-      return unitWorker.Repository.GetAll(navigationProperties);
+      return repository.GetAll(navigationProperties);
     }
 
     public TEntity GetSingle(Expression<Func<TEntity, bool>> where, params Expression<Func<TEntity, object>>[] navigationProperties)
     {
-      return unitWorker.Repository.GetSingle(where, navigationProperties);
+      return repository.GetSingle(where, navigationProperties);
     }
 
     public IList<TEntity> GetWhere(Expression<Func<TEntity, bool>> where, params Expression<Func<TEntity, object>>[] navigationProperties)
@@ -34,25 +37,26 @@ namespace Domain.Services
 
     public int Remove(TEntity entity)
     {
-      unitWorker.Repository.Remove(entity);
+      repository.Remove(entity);
       return unitWorker.Commit();
     }
 
     public int Add(TEntity entity)
     {
-      unitWorker.Repository.Add(entity);
-      return unitWorker.Commit();
+      using (unitWorker)
+      {
+        repository.Add(entity);
+        return unitWorker.Commit();
+      }
     }
 
     public int Update(TEntity entity)
     {
-      unitWorker.Repository.Update(entity);
-      return unitWorker.Commit();
-    }
-
-    public void Dispose()
-    {
-      unitWorker.Dispose();
+      using (unitWorker)
+      {
+        repository.Update(entity);
+        return unitWorker.Commit();
+      }
     }
   }
 }

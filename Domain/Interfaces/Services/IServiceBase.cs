@@ -13,6 +13,5 @@ namespace Domain.Interfaces.Services
     int Remove(TEntity entity);
     int Add(TEntity entity);
     int Update(TEntity entity);
-    void Dispose();
   }
 }

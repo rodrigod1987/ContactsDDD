@@ -2,8 +2,6 @@
 using Application.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq.Expressions;
 using Domain.Interfaces.Services;
 
 namespace Application
@@ -17,7 +15,7 @@ namespace Application
       this.service = service;
     }
 
-    public IEnumerable<Contact> GetContactsWithAvatar(Contact contact)
+    public IEnumerable<Contact> GetContactsWithAvatar()
     {
       return service.GetContactsWithAvatar(service.GetAll());
     }

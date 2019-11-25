@@ -1,7 +1,11 @@
 ﻿using Application.Interfaces;
+using AutoMapper;
+using ContactsWeb.ViewModels;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ContactsWeb.Controllers
 {
@@ -19,8 +23,7 @@ namespace ContactsWeb.Controllers
     [HttpGet]
     public IList<Contact> GetAll()
     {
-      return contactAppService.GetAll(contact => contact.Address,
-        contact => contact.Email);
+      return contactAppService.GetAll();
     }
 
     [HttpGet("{id}")]
@@ -30,6 +33,13 @@ namespace ContactsWeb.Controllers
         contact => contact.Address,
         contact => contact.Email,
         contact => contact.Phones);
+    }
+
+    [HttpGet]
+    [Route("GetContactsWithAvatar")]
+    public IEnumerable<Contact> GetContactsWithAvatar()
+    {
+      return contactAppService.GetContactsWithAvatar();
     }
 
     [HttpPost]

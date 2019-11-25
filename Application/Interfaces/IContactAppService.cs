@@ -5,7 +5,7 @@ namespace Application.Interfaces
 {
   public interface IContactAppService : IAppServiceBase<Contact>
   {
-    IEnumerable<Contact> GetContactsWithAvatar(Contact contact);
+    IEnumerable<Contact> GetContactsWithAvatar();
     int Save(Contact contact);
   }
 }

@@ -1,13 +1,13 @@
-﻿using Domain.Entities;
+﻿using Data.Context;
+using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Microsoft.Extensions.Configuration;
 
-namespace Infrastructure.Repositories
+namespace Data.Repositories
 {
 
   public class AddressRepository : RepositoryBase<Address>, IAddressRepository
   {
-    public AddressRepository(IConfiguration configuration) : base(configuration)
+    public AddressRepository(DatabaseContext databaseContext) : base(databaseContext)
     {
     }
   }

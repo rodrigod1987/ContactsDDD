@@ -4,11 +4,10 @@ using Domain.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace Application
 {
-  public class AppServiceBase<TEntity> : IDisposable, IAppServiceBase<TEntity> where TEntity : class, IEntity
+  public class AppServiceBase<TEntity> : IAppServiceBase<TEntity> where TEntity : class, IEntity
   {
     private readonly IServiceBase<TEntity> service;
 
@@ -45,11 +44,6 @@ namespace Application
     public int Update(TEntity entity)
     {
       return service.Update(entity);
-    }
-
-    public void Dispose()
-    {
-      service.Dispose();
     }
   }
 }

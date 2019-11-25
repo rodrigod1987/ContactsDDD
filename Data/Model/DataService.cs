@@ -2,13 +2,13 @@
 using Data.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace InfrastructureLayer.Model
+namespace Data.Model
 {
   public class DataService : IDataService
   {
-    private readonly ContactDBContext contextDB;
+    private readonly DatabaseContext contextDB;
 
-    public DataService(ContactDBContext contextDB)
+    public DataService(DatabaseContext contextDB)
     {
       this.contextDB = contextDB;
     }

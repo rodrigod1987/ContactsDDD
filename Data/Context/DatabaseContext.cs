@@ -5,15 +5,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace Data.Context
 {
-  public class ContactDBContext : DbContext
+  public class DatabaseContext : DbContext
   {
     private readonly IConfiguration configuration;
 
-    public ContactDBContext(IConfiguration configuration)
-    {
+    public DatabaseContext(IConfiguration configuration) => 
       this.configuration = configuration;
-    }
-    
+
+
     public DbSet<Contact> Contacts { get; set; }
     public DbSet<Address> Addresses { get; set; }
     public DbSet<Email> Emails { get; set; }
